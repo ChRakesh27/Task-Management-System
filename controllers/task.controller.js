@@ -76,10 +76,10 @@ const completedTask = async (req, res, next) => {
         if (startDate || endDate) {
             filter['dueDate'] = {}
             if (startDate) {
-                filter['dueDate']["$gt"] = startDate
+                filter['dueDate']["$gte"] = startDate
             }
             if (endDate) {
-                filter['dueDate']["$lt"] = endDate
+                filter['dueDate']["$lte"] = endDate
             }
         }
 

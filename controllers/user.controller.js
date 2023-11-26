@@ -5,8 +5,8 @@ const bcrypt = require('bcrypt')
 const registerUser = async (req, res, next) => {
     try {
         const obj = req.body;
-        const newUser = await User.create(obj);
-        res.status(201).json({ newUser })
+        await User.create(obj);
+        res.status(201).json({ message: "create new user" })
     } catch (error) {
         next(error)
     }
@@ -14,7 +14,7 @@ const registerUser = async (req, res, next) => {
 
 const loginUser = async (req, res, next) => {
     try {
-        const { email, password } = req.body;
+        const { email, password } = req.query;
         const user = await User.findOne({ email }).select("+password")
         if (!user) {
             res.status(404).json({ message: "user not found" })

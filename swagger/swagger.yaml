@@ -1,0 +1,335 @@
+openapi: 3.0.3
+info:
+  title: Task management system
+  description: "Task Managment API service"
+  contact:
+    email: chipparakesh01@gmail.com
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/api
+tags:
+  - name: Task
+    description: Opeations on Task
+  - name: User
+    description: Operations on User
+paths:
+  /tasks:
+    get:
+      tags:
+        - Task
+      summary: Get all tasks
+      description: Get all tasks
+      operationId: getAllTasks
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tasks"
+    post:
+      tags:
+        - Task
+      summary: Create new task
+      description: Create new task
+      operationId: createTask
+      requestBody:
+        description: Create a new Task
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TaskInput"
+        required: true
+      responses:
+        "201":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tasks"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      security:
+        - bearerAuth: []
+  /tasks/{id}:
+    get:
+      tags:
+        - Task
+      summary: Get task by Id
+      description: Get task by Id
+      operationId: getTaskById
+      parameters:
+        - name: id
+          in: path
+          description: Id of task to return
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+    put:
+      tags:
+        - Task
+      summary: Update task by Id
+      description: Update task by Id
+      operationId: updateTaskById
+      parameters:
+        - name: id
+          in: path
+          description: Id of task to return
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update task by Id
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TaskInput"
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      security:
+        - bearerAuth: []
+    delete:
+      tags:
+        - Task
+      summary: Delete task by Id
+      description: Delete task by Id
+      operationId: deleteTaskById
+      parameters:
+        - name: id
+          in: path
+          description: Id of task to return
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Successful operation(no content)
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      security:
+        - bearerAuth: []
+  /tasks/analytics:
+    get:
+      tags:
+        - Task
+      summary: Analytics on tasks
+      description: Analytics on tasks
+      operationId: taskAnalytics
+      parameters:
+        - name: userId
+          in: query
+          description: Search by user Id
+          required: false
+          schema:
+            type: string
+        - name: title
+          in: query
+          description: Search by title
+          required: false
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: Search by status
+          required: false
+          schema:
+            type: string
+            enum:
+              - Open
+              - Pending
+              - OnHold
+              - Completed
+        - name: startDate
+          in: query
+          description: Search by dueDate >= startDate
+          required: false
+          schema:
+            type: string
+            example: "2023-11-19T09:30:00.999Z"
+        - name: endDate
+          in: query
+          description: Search by dueDate <= endDate
+          required: false
+          schema:
+            type: string
+            example: "2023-11-19T09:30:00.999Z"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+
+  /users/login:
+    get:
+      tags:
+        - User
+      summary: Logs user into the system
+      description: ""
+      operationId: loginUser
+      parameters:
+        - name: email
+          in: query
+          description: The email for login
+          required: true
+          schema:
+            type: string
+        - name: password
+          in: query
+          description: The password for login in clear text
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: bearer token
+        "400":
+          description: Invalid email/password supplied
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: user not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /users/register:
+    post:
+      tags:
+        - User
+      summary: Register new user
+      description: create new user in system.
+      operationId: registerUser
+      requestBody:
+        description: Create a new Task
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserInput"
+        required: true
+      responses:
+        "201":
+          description: successful registered new user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: The user ID.
+        default:
+          description: default error message
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+components:
+  schemas:
+    TaskInput:
+      type: object
+      required:
+        - title
+        - description
+        - userId
+        - dueDate
+        - status
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        userId:
+          type: string
+        dueDate:
+          type: string
+        status:
+          type: string
+          default: Open
+          enum:
+            - Open
+            - Pending
+            - OnHold
+            - Completed
+    Tasks:
+      type: array
+      items:
+        $ref: "#/components/schemas/Task"
+    Task:
+      type: object
+      properties:
+        _id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        userId:
+          type: string
+        dueDate:
+          type: string
+        status:
+          type: string
+          enum:
+            - Open
+            - Pending
+            - OnHold
+            - Completed
+    UserInput:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        error:
+          type: object
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

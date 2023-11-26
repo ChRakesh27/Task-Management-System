@@ -5,11 +5,11 @@ const authMiddleware = require("../middlewares/authMiddleware");
 const router = express.Router();
 
 router
-  .route("/")
+  .route("")
   .get(taskController.getAllTasks)
   .post(authMiddleware, taskController.createTask);
 
-router.route("/analytics").get(taskController.completedTask);
+router.route("/analytics").get(taskController.getAnalytics);
 
 router
   .route("/:id")

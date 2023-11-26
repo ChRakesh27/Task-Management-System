@@ -59,7 +59,7 @@ const deleteTaskById = async (req, res, next) => {
   }
 };
 
-const completedTask = async (req, res, next) => {
+const getAnalytics = async (req, res, next) => {
   try {
     const { status, startDate, endDate, userId, title } = req.query;
 
@@ -90,8 +90,6 @@ const completedTask = async (req, res, next) => {
       };
     }
 
-    console.log("🚀 ~ filter:", filter);
-
     const data = await Task.find(filter);
     res.status(200).json({ data });
   } catch (error) {
@@ -106,5 +104,5 @@ module.exports = {
   getTaskById,
   updateTaskById,
   deleteTaskById,
-  completedTask,
+  getAnalytics,
 };

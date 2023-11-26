@@ -19,6 +19,8 @@ Core package used in the project
 - [dotenv](https://www.npmjs.com/package/dotenv)
 - [cors](https://www.npmjs.com/package/cors)
 - [logger](https://www.npmjs.com/package/logger)
+- [jest](https://www.npmjs.com/package/jest)
+- [supertest](https://www.npmjs.com/package/supertest)
 
 #### Clone the repo
 
@@ -44,6 +46,20 @@ or
 
 ```bash
 npm run start:dev
+```
+
+#### Run test cases
+
+to run test case once
+
+```bash
+npm run test
+```
+
+to run test cases with watch
+
+```bash
+npm run test:watch
 ```
 
 ## Postman collection

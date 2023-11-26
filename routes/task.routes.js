@@ -1,20 +1,20 @@
-const taskController = require('../controllers/task.controller')
+const taskController = require("../controllers/task.controller");
 
-const express = require('express');
-const authMiddleware = require('../middlewares/authMiddleware');
-const router = express.Router()
+const express = require("express");
+const authMiddleware = require("../middlewares/authMiddleware");
+const router = express.Router();
 
+router
+  .route("/")
+  .get(taskController.getAllTasks)
+  .post(authMiddleware, taskController.createTask);
 
-router.route('/')
-    .get(taskController.getAllTasks)
-    .post(authMiddleware, taskController.createTask)
+router.route("/analytics").get(taskController.completedTask);
 
-router.route('/analytics')
-    .get(taskController.completedTask)
-
-router.route('/:id')
-    .get(taskController.getTaskById)
-    .put(authMiddleware, taskController.updateTaskById)
-    .delete(authMiddleware, taskController.deleteTaskById)
+router
+  .route("/:id")
+  .get(taskController.getTaskById)
+  .put(authMiddleware, taskController.updateTaskById)
+  .delete(authMiddleware, taskController.deleteTaskById);
 
 module.exports = router;

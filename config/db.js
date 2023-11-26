@@ -2,10 +2,10 @@ const mongoose = require("mongoose");
 const { createLogger } = require("../logger/logger");
 
 const logger = createLogger("config:db");
-const mongoDB_Url = process.env.MongoDB_Url;
+const MONGODB_URL = process.env.MONGODB_URL;
 
 //connect the mongoose
-mongoose.connect(mongoDB_Url);
+mongoose.connect(MONGODB_URL);
 mongoose.connection.on("connected", () => {
   logger.info("mongoDB connected");
 });

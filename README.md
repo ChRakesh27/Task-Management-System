@@ -64,10 +64,12 @@ npm run test:watch
 
 ## Postman collection
 
-- postman collection available - [collection](./postman%20collection/Rakesh%20-%20Task-Manager.postman_collection.json)
+- postman collection available - [collection link](./postman%20collection/Rakesh%20-%20Task-Manager.postman_collection.json)
+
   ![collection](./postman-collection/collection-img.png)
 
 ## Swagger document
 
-- List Available apis on tasks & users
+- List Available apis on tasks & users - [swagger link](./swagger/swagger.yaml)
+
   ![swagger](./swagger/swagger-img.png)

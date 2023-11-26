@@ -91,7 +91,7 @@ const getAnalytics = async (req, res, next) => {
     }
 
     const data = await Task.find(filter);
-    res.status(200).json({ data });
+    res.status(200).json(data);
   } catch (error) {
     logger.error(error, "failed to get completed task");
     next(error);
